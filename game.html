@@ -117,7 +117,26 @@
     }
   </style>
 
-  <script>
+  <script type="application/javascript">
+
+    const DemoApp = {
+      initData      : Telegram.WebApp.initData || '',
+      initDataUnsafe: Telegram.WebApp.initDataUnsafe || {},
+      MainButton    : Telegram.WebApp.MainButton,
+
+      init(options) {
+          document.body.style.visibility = '';
+          Telegram.WebApp.ready();
+          Telegram.WebApp.MainButton.setParams({
+              text      : 'Закрыть',
+              is_visible: true
+          }).onClick(DemoApp.close);
+      },
+      expand() {
+        Telegram.WebApp.expand();
+      }
+    }
+
     var elButton, elWrapper;
     $.fn.flyTo = function (target, source, callback) {
       var divider = 8;
@@ -133,8 +152,8 @@
         });
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      Telegram.WebApp.showAlert('SemkaX test App');
+    document.addEventListener("DOMContentLoaded", function () {  
+      DemoApp.expand();    
       elButton = document.querySelector(".treat-button");
       elWrapper = document.querySelector(".treat-wrapper");
       elButton.addEventListener("click", addTreats);
