@@ -2,7 +2,13 @@
 
 <head>
   <title>SemkaX test App</title>
+  <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js?1"></script>
   <style>
     @import url('https://fonts.googleapis.com/css?family=Fascinate+Inline&display=swap');
 
@@ -29,7 +35,7 @@
 
     .treat-button {
       font-family: 'Fascinate Inline', cursive;
-      font-size: 24vmin;
+      font-size: 54vmin;
       appearance: none;
       color: #FFF;
       overflow: hidden;
@@ -119,7 +125,7 @@
       $(source).animate({
         opacity: 0.4,
         left: $(target).offset().left + ($(target).width() / 2) - ($(source).width() / divider) / 2,
-        top: $(target).offset().top + 50
+        top: $(target).offset().top + 80
       }, 600,
         function () {
           $(source).stop();
@@ -129,6 +135,7 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
+      Telegram.WebApp.expand();
       elButton = document.querySelector(".treat-button");
       elWrapper = document.querySelector(".treat-wrapper");
       elButton.addEventListener("click", addTreats);
