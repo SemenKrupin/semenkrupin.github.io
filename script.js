@@ -169,6 +169,7 @@ function createTreat() {
     el.setAttribute('score', item.v.score);
     el.setAttribute('name', item.n);
     el.appendChild(inner);
+    
 
     obj.elWrapper.appendChild(el);
 
@@ -178,7 +179,7 @@ function createTreat() {
 
     el.style.setProperty("--lifetime", lifetime);
 
-    $(obj.elButton).shake(4,3,2);
+    $(obj.elButton).shake(2,3,2);
 
     const treat = {
         el,
