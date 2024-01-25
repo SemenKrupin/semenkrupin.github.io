@@ -11,6 +11,18 @@ const ram = {
     energyClickValue: -3
 }
 
+$.fn.shake = function(interval,distance,times){
+    interval = typeof interval == "undefined" ? 100 : interval;
+    distance = typeof distance == "undefined" ? 10 : distance;
+    times = typeof times == "undefined" ? 3 : times;
+    var jTarget = $(this);
+    jTarget.css('position','relative');
+    for(var iter=0;iter<(times+1);iter++){
+       jTarget.animate({ left: ((iter%2==0 ? distance : distance*-1))}, interval);
+    }
+    return jTarget.animate({ left: 0},interval);
+ }
+
 $.fn.flyTo = function (target, source, callback) {    
     $(source).animate({        
         left: $(target).offset().left,
@@ -19,7 +31,7 @@ $.fn.flyTo = function (target, source, callback) {
         function () {
             $(source).stop();
             $(source).remove();
-            if (callback) callback();
+            if (callback) callback();            
         });
 }
 
@@ -144,6 +156,7 @@ const ag = 9.81;
 const frameRate = 1 / 60;
 
 function createTreat() {
+    
     const vx = getRandomArbitrary(-10, 10);
     const vy = getRandomArbitrary(-10, 1);
 
@@ -164,6 +177,8 @@ function createTreat() {
     const lifetime = ram.energyClickValue * 1000 * -1; //getRandomArbitrary(2000, 3000);
 
     el.style.setProperty("--lifetime", lifetime);
+
+    $(obj.elButton).shake(4,3,2);
 
     const treat = {
         el,
@@ -261,7 +276,7 @@ function createTreat() {
                     score.style.fontSize = "7vmin"
                     score.style.color = "#F44336";   
                     changeScoreValue(parseInt(score.innerText));
-                    $(score).flyTo(obj.scoreProgress, $(score), function () {
+                    $(score).flyTo(obj.scoreProgress, $(score), function () {                        
                         $(this).remove();
                     });                
                 } break;
@@ -274,8 +289,10 @@ function createTreat() {
                         });
                     } break;
                 case "s":
-                    {
-                        score.style.fontSize = "20vmin"
+                    {                        
+                        score.style.color = "var(--progress2-color)";  
+                        score.style.fontSize = "20vmin";
+                        score.style.fontWeight = 'bold';
                         changeScoreValue(parseInt(score.innerText));
                         $(score).flyTo($('.treat-button'), $(score), function () {
                             $(this).remove();
@@ -292,7 +309,7 @@ function createTreat() {
         }
 
 
-        const score = document.createElement('span');
+        const score = document.createElement('span');        
         score.setAttribute('name', treat.el.getAttribute('name'));
         score.style.position = 'fixed';
         score.style.top = treat.position.y;
@@ -339,7 +356,7 @@ function addTreats() {
             if (treats.length > 40) {
                 return;
             }
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 10; i++) {                
                 treats.push(createTreat());
             }
         }
