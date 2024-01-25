@@ -45,7 +45,7 @@ function startIntervalEnergy() {
             obj.energyScore.setAttribute('value', value);
             obj.energyScore.parentElement.getElementsByTagName('span')[0].innerText = value + '/' + obj.energyScore.getAttribute('max');
         }
-    }, 1000);
+    }, 100);
 }
 
 function clearIntervalEnergy() {
@@ -134,7 +134,7 @@ const treatmojis = [
         "n": "d"
     },
     {
-        "v": { "score": +3 },
+        "v": { "score": +1 },
         "i": "🤑",
         "n": "s"
     },
@@ -147,7 +147,7 @@ const treatmojis = [
 
 const treats = [];
 function createTreat() {
-    
+
     const frameRate = 1 / 60;
     const radius = 11;
     const Cd = 0.47;
@@ -167,7 +167,7 @@ function createTreat() {
                 } break;
             case 'e':
                 {
-                    
+
                 } break;
         }
     }
@@ -289,13 +289,13 @@ function createTreat() {
         function scoreFn(score) {
             switch (score.getAttribute('name')) {
                 case "d": {
-                    console.log('d', score);
-                    score.style.fontSize = "7vmin"
-                    score.style.color = "#F44336";
-                    changeScoreValue(parseInt(score.innerText));
-                    $(score).flyTo(obj.elButton, $(score), function () {
-                        $(this).remove();
-                    });
+                    // console.log('d', score);
+                    // score.style.fontSize = "7vmin"
+                    // score.style.color = "#F44336";
+                    // changeScoreValue(parseInt(score.innerText));
+                    // $(score).flyTo(obj.elButton, $(score), function () {
+                    //     $(this).remove();
+                    // });
                 } break;
                 case "e":
                     {
@@ -328,16 +328,16 @@ function createTreat() {
         }
 
 
-        const score = document.createElement('span');
-        score.setAttribute('name', treat.el.getAttribute('name'));
-        score.style.position = 'fixed';
-        score.style.top = treat.position.y;
-        score.style.left = treat.position.x;
-        score.innerText = treat.el.getAttribute('score');
-
-        scoreFn(score);
-        obj.elWrapper.appendChild(score);
-
+        if (treat.el.getAttribute('name') != 'd') {
+            const score = document.createElement('span');
+            score.setAttribute('name', treat.el.getAttribute('name'));
+            score.style.position = 'fixed';
+            score.style.top = treat.position.y;
+            score.style.left = treat.position.x;
+            score.innerText = treat.el.getAttribute('score');
+            scoreFn(score);
+            obj.elWrapper.appendChild(score);
+        }
         treat.remove();
 
     }, lifetime);
@@ -375,7 +375,7 @@ function addTreats() {
             if (treats.length > 40) {
                 return;
             }
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 3; i++) {
                 treats.push(createTreat());
             }
         }
