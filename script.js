@@ -276,13 +276,15 @@ function createTreat() {
                     score.style.fontSize = "7vmin"
                     score.style.color = "#F44336";   
                     changeScoreValue(parseInt(score.innerText));
-                    $(score).flyTo(obj.scoreProgress, $(score), function () {                        
+                    $(score).flyTo(obj.elButton, $(score), function () {                        
                         $(this).remove();
                     });                
                 } break;
                 case "e":
                     {
                         console.log('e', score);
+                        score.style.color = "var(--progress3-color)";  
+                        score.style.fontSize = "10vmin";
                         changeEnergyValue(parseInt(score.innerText));
                         $(score).flyTo(obj.energyScore, $(score), function () {
                             $(this).remove();
@@ -301,7 +303,7 @@ function createTreat() {
                 default: {
                     score.style.fontSize = "15vmin";
                     score.style.color = "#feca57";
-                    $(score).flyTo(obj.scoreProgress, $(score), function () {
+                    $(score).flyTo(obj.elButton, $(score), function () {
                         $(this).remove();
                     });
                 } break;
