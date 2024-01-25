@@ -11,27 +11,27 @@ const ram = {
     energyClickValue: -3
 }
 
-$.fn.shake = function(interval,distance,times){
+$.fn.shake = function (interval, distance, times) {
     interval = typeof interval == "undefined" ? 100 : interval;
     distance = typeof distance == "undefined" ? 10 : distance;
     times = typeof times == "undefined" ? 3 : times;
     var jTarget = $(this);
-    jTarget.css('position','relative');
-    for(var iter=0;iter<(times+1);iter++){
-       jTarget.animate({ left: ((iter%2==0 ? distance : distance*-1))}, interval);
+    jTarget.css('position', 'relative');
+    for (var iter = 0; iter < (times + 1); iter++) {
+        jTarget.animate({ left: ((iter % 2 == 0 ? distance : distance * -1)) }, interval);
     }
-    return jTarget.animate({ left: 0},interval);
- }
+    return jTarget.animate({ left: 0 }, interval);
+}
 
-$.fn.flyTo = function (target, source, callback) {    
-    $(source).animate({        
+$.fn.flyTo = function (target, source, callback) {
+    $(source).animate({
         left: $(target).offset().left,
         top: $(target).offset().top
     }, 1000,
         function () {
             $(source).stop();
             $(source).remove();
-            if (callback) callback();            
+            if (callback) callback();
         });
 }
 
@@ -55,9 +55,8 @@ function clearIntervalEnergy() {
     }
 }
 
-function changeScoreValue(value, flagFn = () => {})
-{
-    const currValue = parseInt(obj.scoreProgress.getAttribute('value'));    
+function changeScoreValue(value, flagFn = () => { }) {
+    const currValue = parseInt(obj.scoreProgress.getAttribute('value'));
     if (currValue + value >= 0 && currValue + value <= parseInt(obj.scoreProgress.getAttribute('max'))) {
         obj.scoreProgress.setAttribute('value', currValue + value);
         obj.scoreProgress.parentElement.getElementsByTagName('span')[0].innerText = currValue + value + '/' + obj.scoreProgress.getAttribute('max');
@@ -76,8 +75,7 @@ function changeScoreValue(value, flagFn = () => {})
 }
 
 function changeEnergyValue(value, flagFn = () => { }) {
-    try
-    {
+    try {
         const currValue = parseInt(obj.energyScore.getAttribute('value'));
         if (currValue + value >= 0 && currValue + value <= parseInt(obj.energyScore.getAttribute('max'))) {
             obj.energyScore.setAttribute('value', currValue + value);
@@ -95,7 +93,7 @@ function changeEnergyValue(value, flagFn = () => { }) {
             flagFn(false);
         }
     }
-    catch {}    
+    catch { }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -146,21 +144,39 @@ const treatmojis = [
         "n": "e"
     }
 ];
+
 const treats = [];
-const radius = 11;
-
-const Cd = 0.47;
-const rho = 1.22;
-const A = Math.PI * radius * radius / 10000;
-const ag = 9.81;
-const frameRate = 1 / 60;
-
 function createTreat() {
     
+    const frameRate = 1 / 60;
+    const radius = 11;
+    const Cd = 0.47;
+    const rho = 1.22;
+    const A = Math.PI * radius * radius / 10000;
+    const ag = 9.81;
+
+    function setParam(item) {
+        switch (item.n) {
+            case 'd':
+                {
+
+                } break;
+            case 's':
+                {
+
+                } break;
+            case 'e':
+                {
+                    
+                } break;
+        }
+    }
+
     const vx = getRandomArbitrary(-10, 10);
     const vy = getRandomArbitrary(-10, 1);
 
     const item = treatmojis[getRandomInt(0, treatmojis.length - 1)];
+    setParam(item);
     const el = document.createElement("div");
     el.className = "treat";
     const inner = document.createElement("span");
@@ -169,7 +185,7 @@ function createTreat() {
     el.setAttribute('score', item.v.score);
     el.setAttribute('name', item.n);
     el.appendChild(inner);
-    
+
 
     obj.elWrapper.appendChild(el);
 
@@ -179,7 +195,7 @@ function createTreat() {
 
     el.style.setProperty("--lifetime", lifetime);
 
-    $(obj.elButton).shake(2,3,2);
+    $(obj.elButton).shake(2, 3, 2);
 
     const treat = {
         el,
@@ -188,7 +204,7 @@ function createTreat() {
         velocity: { x: vx, y: vy },
         mass: 0.1, //kg
         radius: el.offsetWidth, // 1px = 1cm
-        restitution: -.7,
+        restitution: -.9,
 
         lifetime,
         direction: vx > 0 ? 1 : -1,
@@ -272,19 +288,19 @@ function createTreat() {
 
         function scoreFn(score) {
             switch (score.getAttribute('name')) {
-                case "d": {                    
-                    console.log('d',score);
+                case "d": {
+                    console.log('d', score);
                     score.style.fontSize = "7vmin"
-                    score.style.color = "#F44336";   
+                    score.style.color = "#F44336";
                     changeScoreValue(parseInt(score.innerText));
-                    $(score).flyTo(obj.elButton, $(score), function () {                        
+                    $(score).flyTo(obj.elButton, $(score), function () {
                         $(this).remove();
-                    });                
+                    });
                 } break;
                 case "e":
                     {
                         console.log('e', score);
-                        score.style.color = "var(--progress3-color)";  
+                        score.style.color = "var(--progress3-color)";
                         score.style.fontSize = "10vmin";
                         changeEnergyValue(parseInt(score.innerText));
                         $(score).flyTo(obj.energyScore, $(score), function () {
@@ -292,15 +308,15 @@ function createTreat() {
                         });
                     } break;
                 case "s":
-                    {                        
-                        score.style.color = "var(--progress2-color)";  
+                    {
+                        score.style.color = "var(--progress2-color)";
                         score.style.fontSize = "20vmin";
                         score.style.fontWeight = 'bold';
                         changeScoreValue(parseInt(score.innerText));
                         $(score).flyTo($('.treat-button'), $(score), function () {
                             $(this).remove();
                         });
-                    }break;
+                    } break;
                 default: {
                     score.style.fontSize = "15vmin";
                     score.style.color = "#feca57";
@@ -312,7 +328,7 @@ function createTreat() {
         }
 
 
-        const score = document.createElement('span');        
+        const score = document.createElement('span');
         score.setAttribute('name', treat.el.getAttribute('name'));
         score.style.position = 'fixed';
         score.style.top = treat.position.y;
@@ -338,14 +354,14 @@ function animationLoop() {
             treats.splice(i, 1);
         }
 
-        const treatsArr = document.getElementsByClassName('treat-wrapper')[0].getElementsByClassName('treat');        
+        const treatsArr = document.getElementsByClassName('treat-wrapper')[0].getElementsByClassName('treat');
         if (treatsArr.length > 0) {
             clearIntervalEnergy();
         }
         else {
             if (ram.energyInterval == null) {
                 startIntervalEnergy();
-            }            
+            }
         }
     }
     requestAnimationFrame(animationLoop);
@@ -359,7 +375,7 @@ function addTreats() {
             if (treats.length > 40) {
                 return;
             }
-            for (let i = 0; i < 10; i++) {                
+            for (let i = 0; i < 10; i++) {
                 treats.push(createTreat());
             }
         }

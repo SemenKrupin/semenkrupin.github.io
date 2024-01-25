@@ -54,7 +54,7 @@ body {
     font-size: 54vmin;
     appearance: none;
     color: #FFF;
-    overflow: hidden;    
+    overflow: hidden;
     cursor: pointer;
     z-index: 1;
     align-items: center;
@@ -159,12 +159,12 @@ span {
     border: none;
     border-radius: 10px;
     height: 20px;
-    overflow: hidden;    
+    overflow: hidden;
 }
 
 ::-webkit-progress-value {
     transition: width 1s;
-  }
+}
 
 .progress::-webkit-progress-bar {
     background-color: var(--progress-bar-color);
